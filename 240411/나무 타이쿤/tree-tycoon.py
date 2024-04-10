@@ -5,7 +5,6 @@ dx = [0, 1, 1, 0, -1, -1, -1, 0, 1]
 
 n, m = map(int, input().split())
 grid = [list(map(int, input().split())) for _ in range(n)]
-d, p = map(int, input().split())
 
 nut = deque()
 for i in range(n-2, n):
@@ -13,6 +12,7 @@ for i in range(n-2, n):
         nut.append([i, j])
 
 while m:
+    d, p = map(int, input().split())
     nut_cnt = len(nut)
     # 이동
     for _ in range(nut_cnt):
@@ -24,7 +24,7 @@ while m:
     # 높이 증가
     for i in range(nut_cnt):
         cur_y, cur_x = nut[i]
-        grid[cur_y][cur_x] += 3
+        grid[cur_y][cur_x] += 1
 
     for i in range(nut_cnt):
         cur_y, cur_x = nut[i]
@@ -36,12 +36,14 @@ while m:
                 grid[cur_y][cur_x] += 1
 
     # 영양제 재배열
-    nut.clear()
     for i in range(n):
         for j in range(n):
-            if grid[i][j] >= 2:
+            if [i, j] not in nut and grid[i][j] >= 2:
                 grid[i][j] -= 2
                 nut.append([i, j])
+    for _ in range(nut_cnt):
+        nut.popleft()
+        
     m -= 1
 
 ans = 0
