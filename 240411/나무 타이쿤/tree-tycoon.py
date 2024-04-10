@@ -22,10 +22,12 @@ while m:
         nut.append([cur_y, cur_x])
 
     # 높이 증가
-    for cur_y, cur_x in nut:
+    iter_nut = nut.__iter__()
+    for cur_y, cur_x in iter_nut:
         grid[cur_y][cur_x] += 1
 
-    for cur_y, cur_x in nut:
+    iter_nut = nut.__iter__()
+    for cur_y, cur_x in iter_nut:
         for j in range(2, 9, 2):
             ny, nx = cur_y + dy[j], cur_x + dx[j]
             if ny < 0 or ny >= n or nx < 0 or nx >= n:
