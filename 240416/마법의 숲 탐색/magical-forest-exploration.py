@@ -17,19 +17,16 @@ def can_move_gol(cr, cc):
 def move_gol(sc, sd, gol_num):
     sr = 1
     while True:
-        if can_move_gol(sr, sc):
-            if can_move_gol(sr + 1, sc):
-                sr = sr + 1
-            elif can_move_gol(sr, sc - 1) and can_move_gol(sr + 1, sc - 1):
-                sr = sr + 1
-                sc = sc - 1
-                sd = (sd - 1) % 4
-            elif can_move_gol(sr, sc + 1) and can_move_gol(sr + 1, sc + 1):
-                sr = sr + 1
-                sc = sc + 1
-                sd = (sd + 1) % 4
-            else:
-                break
+        if can_move_gol(sr + 1, sc):
+            sr = sr + 1
+        elif can_move_gol(sr, sc - 1) and can_move_gol(sr + 1, sc - 1):
+            sr = sr + 1
+            sc = sc - 1
+            sd = (sd - 1) % 4
+        elif can_move_gol(sr, sc + 1) and can_move_gol(sr + 1, sc + 1):
+            sr = sr + 1
+            sc = sc + 1
+            sd = (sd + 1) % 4
         else:
             break
     
