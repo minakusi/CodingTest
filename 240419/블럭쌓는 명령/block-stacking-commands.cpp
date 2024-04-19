@@ -7,7 +7,7 @@ int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(0);
     cout.tie(0);
-    
+
     int n, k;
     cin >> n >> k;
     vector<int> block(n+1, 0);
@@ -15,8 +15,11 @@ int main() {
     for(int i = 0; i < k; ++i){
         int a, b;
         cin >> a >> b;
-        for (int j = a; j <= b; ++j) block[j]++;
+        ++block[a];
+        --block[b+1];
     }
+
+    for(int i = 0; i < n; ++i) block[i+1] += block[i];
 
     sort(block.begin(), block.end());
 
