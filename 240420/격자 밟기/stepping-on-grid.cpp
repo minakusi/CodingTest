@@ -44,6 +44,7 @@ void search(int left, int ax, int ay, int bx, int by){
             if (nxt_bx < 1 || nxt_bx > 5 || nxt_by < 1 || nxt_by > 5) continue;
             if (visited[nxt_ax][nxt_ay]) continue;
             if (visited[nxt_bx][nxt_by]) continue;
+            if (nxt_ax == nxt_bx && nxt_ay == nxt_by) continue;
 
             visited[nxt_ax][nxt_ay] = true;
             visited[nxt_bx][nxt_by] = true;
