@@ -51,8 +51,8 @@ int main() {
             int total = grid[i][j];
             int cnt = 0;
             for (int k = 0; k < 4; ++k){
-                int nxt_x = i + dx[i];
-                int nxt_y = j + dy[i];
+                int nxt_x = i + dx[k];
+                int nxt_y = j + dy[k];
                 if (nxt_x < 0 || nxt_x >= n || nxt_y < 0 || nxt_y >= m) continue;
                 ++cnt;
                 if (grid[nxt_x][nxt_y] < min) min = grid[nxt_x][nxt_y];
