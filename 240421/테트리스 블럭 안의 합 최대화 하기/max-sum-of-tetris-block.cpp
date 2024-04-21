@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <algorithm>
 using namespace std;
 
 int dx[4] = {0, 1, 0, -1};
@@ -45,6 +46,26 @@ int main() {
             visited[i][j] = true;
             search(1, i, j, grid[i][j]);
             visited[i][j] = false;
+
+            int min = 1000;
+            int total = grid[i][j];
+            int cnt = 0;
+            for (int k = 0; k < 4; ++k){
+                int nxt_x = i + dx[i];
+                int nxt_y = j + dy[i];
+                if (nxt_x < 0 || nxt_x >= n || nxt_y < 0 || nxt_y >= m) continue;
+                ++cnt;
+                if (grid[nxt_x][nxt_y] < min) min = grid[nxt_x][nxt_y];
+                total += grid[nxt_x][nxt_y];
+            }
+
+            if (cnt == 3) {
+                if (ans < total) ans = total;
+            }
+            else if (cnt == 4){
+                total -= min;
+                if (ans < total) ans = total;
+            }
         }
     }    
 
