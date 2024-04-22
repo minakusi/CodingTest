@@ -45,9 +45,10 @@ int main() {
     int depth = 1;
     while(true){
         int cur_len = len[depth-1] * 2 + depth + 3;
-        if (total + cur_len > n) break;
+        if (cur_len > n) break;
 
-        total += cur_len;
+        len[depth] = cur_len;
+        total = cur_len;
         ++depth;
     }
 
