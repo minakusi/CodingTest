@@ -17,7 +17,7 @@ int main() {
         if (dp[i] + p > dp[target]){
             dp[target] = dp[i] + p;
 
-            for (int j =target; j <=n; ++j){
+            for (int j =target; j <=n+1; ++j){
                 if (dp[target] > dp[j]){
                     dp[j] = dp[target];
                 }
