@@ -28,28 +28,14 @@ int main() {
     vector<vector<int>> grid(n, vector<int>(m));
     queue<pair<int, int>> que;
     queue<pair<int, int>> fire;
+    vector<pair<int, int>> firewall_hubo;
     int remove = 0;
     for (int i = 0; i < n; ++i){
         for (int j = 0; j < m; ++j) {
             cin >> grid[i][j];
-            if (grid[i][j] == 2) {
-                que.emplace(i, j);
-                fire.emplace(i, j);
-            }
-            if (grid[i][j] == 1) ++remove;
-        }
-    }
-
-    vector<pair<int, int>> firewall_hubo;
-    vector<vector<int>> tmp_grid(grid);
-    while (!que.empty()){
-        pair<int, int> now = que.front(); que.pop();
-        for (int i = 0; i < 4; ++i){
-            int nxt_x = now.first + dx[i], nxt_y = now.second + dy[i];
-            if (nxt_x < 0 || nxt_x >= n || nxt_y < 0 || nxt_y >= m || tmp_grid[nxt_x][nxt_y] >= 1) continue;
-            tmp_grid[nxt_x][nxt_y] = 2;
-            que.emplace(nxt_x, nxt_y);
-            firewall_hubo.emplace_back(nxt_x, nxt_y);
+            if (grid[i][j] == 2) fire.emplace(i, j);
+            else if (grid[i][j] == 1) ++remove;
+            else firewall_hubo.emplace_back(i, j);
         }
     }
 
