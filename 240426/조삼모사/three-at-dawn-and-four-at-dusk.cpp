@@ -30,7 +30,7 @@ void hubo_search(vector<vector<int>>& works, int start, int cnt, vector<bool> ch
     for (int i = start; i <= n; ++i){
         if (check[i]) continue;
         check[i] = true;
-        hubo_search(works, start + 1, cnt+1, check);
+        hubo_search(works, i + 1, cnt+1, check);
         check[i] = false;
     }
 }
