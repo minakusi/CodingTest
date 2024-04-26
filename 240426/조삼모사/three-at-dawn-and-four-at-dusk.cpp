@@ -6,7 +6,7 @@ using namespace std;
 int n;
 int ans = 1000000000;
 
-void hubo_search(vector<vector<int>>& works, int cnt, vector<bool> check) {
+void hubo_search(vector<vector<int>>& works, int start, int cnt, vector<bool> check) {
     if (cnt == n / 2) {
         int morning = 0, evening = 0;
         for (int i = 1; i <= n; ++i){
@@ -27,10 +27,10 @@ void hubo_search(vector<vector<int>>& works, int cnt, vector<bool> check) {
         return;
     }
 
-    for (int i = 1; i <= n; ++i){
+    for (int i = start; i <= n; ++i){
         if (check[i]) continue;
         check[i] = true;
-        hubo_search(works, cnt+1, check);
+        hubo_search(works, start + 1, cnt+1, check);
         check[i] = false;
     }
 }
@@ -43,7 +43,7 @@ int main() {
     }
 
     vector<bool> check(21, false);
-    hubo_search(works, 0, check);
+    hubo_search(works, 1, 0, check);
 
     cout << ans;
 
