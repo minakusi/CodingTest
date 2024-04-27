@@ -13,7 +13,7 @@ int main() {
     int ans = 0;
     for (int i = 0; i < N; ++i){
         vector<pair<int, int>> seq;
-        for (int j = 0; j < N - 1; ++j){
+        for (int j = 0; j < N; ++j){
             int now = grid[i][j];
             int length = 1;
             while (j < N - 1){
@@ -61,7 +61,7 @@ int main() {
 
     for (int j = 0; j < N; ++j){
         vector<pair<int, int>> seq;
-        for (int i = 0; i < N - 1; ++i){
+        for (int i = 0; i < N; ++i){
             int now = grid[i][j];
             int length = 1;
             while (i < N - 1){
