@@ -3,7 +3,7 @@
 using namespace std;
 
 int grid[30][10];
-bool ans = false;
+int ans = -1;
 
 bool isCorrect(int n, int h){
     for (int customer = 0; customer < n; ++customer){
@@ -21,16 +21,20 @@ bool isCorrect(int n, int h){
     return true;
 }
 
-void search(int now_y, int now_x, int left, int n, int h) {
-    if (left <= 0) {
-        if (isCorrect(n, h)) ans = true;
-        return;
+void search(int now_y, int now_x, int cnt, int n, int h) {
+    if (cnt >= ans && ans != -1) return;
+
+    if (isCorrect(n, h)) {
+        if (ans > cnt || ans == -1) ans = cnt;
     }
+
+    if (cnt >= 3) return;
+
     for (int x = now_x; x < n - 1; ++x){
         if (grid[now_y][x] == 0 && grid[now_y][x + 1] == 0){
-            grid[now_y][x] = 1000 + left;
-            grid[now_y][x+1] = 1000 + left;
-            search(now_y, x+2, left-1, n, h);
+            grid[now_y][x] = 1000 + cnt;
+            grid[now_y][x+1] = 1000 + cnt;
+            search(now_y, x+2, cnt + 1, n, h);
             grid[now_y][x] = 0;
             grid[now_y][x+1] = 0;
         }
@@ -39,9 +43,9 @@ void search(int now_y, int now_x, int left, int n, int h) {
     for (int y = now_y+1; y < h; ++y){
         for (int x = 0; x < n - 1; ++x){
             if (grid[y][x] == 0 && grid[y][x + 1] == 0){
-                grid[y][x] = 1000 + left;
-                grid[y][x+1] = 1000 + left;
-                search(y, x+2, left-1, n, h);
+                grid[y][x] = 1000 + cnt;
+                grid[y][x+1] = 1000 + cnt;
+                search(y, x+2, cnt+1, n, h);
                 grid[y][x] = 0;
                 grid[y][x+1] = 0;
             }
@@ -65,28 +69,8 @@ int main() {
         grid[tmp1-1][tmp2] = i;
     }
 
-    if (isCorrect(n, h)) {
-        cout << 0;
-        return 0;
-    }
-
-    search(0, 0, 1, n, h);
-    if (ans) {
-        cout << 1;
-        return 0;
-    }
-    search(0, 0, 2, n, h);
-    if (ans) {
-        cout << 2;
-        return 0;
-    }
-    search(0, 0, 3, n, h);
-    if (ans) {
-        cout << 3;
-        return 0;
-    }
-    
-    cout << -1;
+    search(0, 0, 0, n, h);
+    cout << ans;
 
     return 0;
 }
