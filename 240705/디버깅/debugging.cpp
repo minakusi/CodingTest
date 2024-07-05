@@ -65,7 +65,7 @@ int main() {
         grid[tmp1-1][tmp2] = i;
     }
 
-    if (isCorrect) {
+    if (isCorrect(n, h)) {
         cout << 0;
         return 0;
     }
