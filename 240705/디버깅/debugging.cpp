@@ -65,6 +65,11 @@ int main() {
         grid[tmp1-1][tmp2] = i;
     }
 
+    if (isCorrect) {
+        cout << 0;
+        return 0;
+    }
+
     search(0, 0, 1, n, h);
     if (ans) {
         cout << 1;
