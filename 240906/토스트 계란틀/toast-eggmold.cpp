@@ -41,7 +41,7 @@ bool search_egg(vector<pair<int, int>>& information){
                         } else{
                             information[grid[ni][nj]].first += egg_grid[i][j];
                             information[grid[ni][nj]].second += 1;
-                            information[grid[i][j]].first -= egg_grid[ni][nj];
+                            information[grid[i][j]].first -= egg_grid[i][j];
                             information[grid[i][j]].second -= 1;
 
                             grid[i][j] = grid[ni][nj];
@@ -71,7 +71,6 @@ void divide_egg(vector<pair<int, int>>& information){
         }
     }
 }
-
 
 int main() {
     cin >> n >> l >> r;
