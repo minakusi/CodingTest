@@ -13,34 +13,34 @@ int dy[4] = {1, 0, -1, 0};
 
 
 bool search(int x, int y) {
-    bool is_changed = false;
     queue<pair<int, int>> que;
     vector<pair<int, int>> change;
     que.emplace(x, y);
-    change.emplace_back(x, y);
-    int total = egg_grid[x][y], cnt = 1;
+    int total = 0, cnt = 0;
+    visited[x][y] = true;
 
     while(!que.empty()){
         int curx = que.front().first; int cury = que.front().second; que.pop();
-        visited[curx][cury] = true;
+        change.emplace_back(curx, cury);
+        total += egg_grid[curx][cury];
+        ++cnt;
         for (int i = 0; i < 4; ++i) {
             int nx = curx + dx[i]; int ny = cury + dy[i];
             if (nx < 0 || nx >= n || ny < 0 || ny >= n || visited[nx][ny]) continue;
             if (abs(egg_grid[curx][cury] - egg_grid[nx][ny]) < l || abs(egg_grid[curx][cury] - egg_grid[nx][ny]) > r) continue;
-
             que.emplace(nx, ny);
-            change.emplace_back(nx, ny);
-            total += egg_grid[nx][ny];
-            ++cnt;
-            is_changed = true;
+            visited[nx][ny] = true;
         }
     }
 
-    if (is_changed) {
+    if (cnt > 1) {
         for (auto& v: change) new_egg_grid[v.first][v.second] = total/cnt;
+        return true;
     }
+    
+    return false;
+    
 
-    return is_changed;
 }
 
 int main() {
