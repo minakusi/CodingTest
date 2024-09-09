@@ -5,6 +5,7 @@ using namespace std;
 
 int n, l, r;
 int egg_grid[50][50];
+int new_egg_grid[50][50];
 bool visited[50][50];
 
 int dx[4] = {0, 1, 0, -1};
@@ -35,7 +36,9 @@ bool search(int x, int y) {
         }
     }
 
-    for (auto& v: change) egg_grid[v.first][v.second] = total/cnt;
+    if (is_changed) {
+        for (auto& v: change) new_egg_grid[v.first][v.second] = total/cnt;
+    }
 
     return is_changed;
 }
@@ -43,14 +46,20 @@ bool search(int x, int y) {
 int main() {
     cin >> n >> l >> r;
     for (int i = 0; i < n; ++i){
-        for (int j = 0; j < n; ++j) cin >> egg_grid[i][j];
+        for (int j = 0; j < n; ++j) {
+            cin >> egg_grid[i][j];
+            new_egg_grid[i][j] = egg_grid[i][j];
+        }
     }
 
     int ans = 0;
     while(true){
         bool is_changed = false;
         for (int i = 0; i < n; ++i){
-            for (int j = 0; j < n; ++j) visited[i][j] = false;
+            for (int j = 0; j < n; ++j) {
+                visited[i][j] = false;
+                egg_grid[i][j] = new_egg_grid[i][j];
+            }
         }
 
         for (int i = 0; i < n; ++i){
