@@ -2,7 +2,7 @@
 #include <queue>
 using namespace std;
 
-int n;
+int n, rx, ry;
 int grid[20][20];
 bool visited[20][20];
 
@@ -24,9 +24,38 @@ typedef struct Element {
     {}
 } Element;
 
+Robot robot;
+
+int bfs(int tx, int ty){
+	for (int j = 0; j < n; ++j){
+		for (int k = 0; k < n; ++k) visited[j][k] = false;
+	}
+
+	queue<Element> que;
+	que.emplace(rx, ry, 0);
+	visited[rx][ry] = true;
+	
+	while(!que.empty()){
+		// cout << rx << ' ' << ry << '\n';
+		int cx = que.front().x; int cy = que.front().y; int clength = que.front().length; que.pop();
+		for (int i = 0; i < 4; ++i){
+			int nx = cx + dx[i]; int ny = cy + dy[i];
+			
+			if (nx < 0 || nx >= n || ny < 0 || ny >= n || grid[nx][ny] > robot.level || visited[nx][ny]) continue;
+			
+			if (nx == tx && ny == ty) {
+				return clength+1;
+			}
+			
+			que.emplace(nx, ny, clength+1);
+			visited[nx][ny] = true;
+		}
+	}
+}
+
+
 int main() {
     cin >> n;
-	int rx, ry;
 	for (int i = 0; i < n; ++i){
 		for (int j = 0; j < n; ++j){
 			cin >> grid[i][j];
@@ -38,48 +67,39 @@ int main() {
 		}
 	}
 
-	Robot robot;
-	queue<Element> que;
-	que.emplace(rx, ry, 0);
-	visited[rx][ry] = true;
+	
 	int ans = 0;
-	while(!que.empty()){
-		// cout << rx << ' ' << ry << '\n';
-		int cx = que.front().x; int cy = que.front().y; int clength = que.front().length; que.pop();
-		for (int i = 0; i < 4; ++i){
-			int nx = cx + dx[i]; int ny = cy + dy[i];
-			
-			if (nx < 0 || nx >= n || ny < 0 || ny >= n || grid[nx][ny] > robot.level || visited[nx][ny]) continue;
-			
-			que.emplace(nx, ny, clength+1);
-			visited[nx][ny] = true;
-
-			if (0 < grid[nx][ny] && grid[nx][ny] < robot.level) {
-				// cout << nx << ' ' << ny << '\n';
-				++robot.defeat;
-				ans += clength+1;
-				grid[nx][ny] = 0;
-				rx = nx;
-				ry = ny;
-				que = queue<Element>();
-				que.emplace(nx, ny, 0);
-				if (robot.defeat == robot.level) {
-					++robot.level;
-					robot.defeat = 0;
+	while(true){
+		int min_len = 401;
+		int nx = 21;
+		int ny = 21;
+		for (int i = 0; i < n; ++i){
+			for (int j = 0; j < n; ++j){
+				if (0 < grid[i][j] && grid[i][j] < robot.level) {
+					int tmp = bfs(i, j);
+					if (tmp < min_len) {
+						min_len = tmp;
+						nx = i;
+						ny = j;
+					}
 				}
-				for (int j = 0; j < n; ++j){
-					for (int k = 0; k < n; ++k) visited[j][k] = false;
-				}
-				visited[nx][ny] = true;
-				break;
 			}
-			
+		}
+		if (min_len == 401) break;
+
+		ans += min_len;
+		++robot.defeat;
+		grid[nx][ny] = 0;
+		rx = nx;
+		ry = ny;
+		if (robot.defeat == robot.level) {
+			++robot.level;
+			robot.defeat = 0;
 		}
 	}
+	
 
 	cout << ans;
-
-
 
     return 0;
 }
