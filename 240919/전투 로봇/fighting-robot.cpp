@@ -51,6 +51,8 @@ int bfs(int tx, int ty){
 			visited[nx][ny] = true;
 		}
 	}
+	
+	return 401;
 }
 
 
