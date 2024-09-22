@@ -1,30 +1,45 @@
 #include <iostream>
 #include <vector>
-#include <map>
+#include <queue>
 
 #define INF 20000000
 using namespace std;
 
-map<int, pair<int, int>> travel_list;
 int n;
 int start = 0;
 int grid[2000][2000];
 int dist[2000];
 int choosed[2000];
+bool ids[30001];
+
+typedef struct Item{
+    int id, revenue, dest, cost;
+    Item(int i, int r, int d, int c): id(i), revenue(r), dest(d), cost(c) {}
+} Item;
+
+struct cmp{
+    bool operator()(Item& a, Item& b){
+        if (a.cost == b.cost) return a.id > b.id;
+        return a.cost < b.cost;
+    }
+};
+
+priority_queue<Item, vector<Item>, cmp> travel_list;
+
 
 int find_travel(){
-    if (travel_list.size() == 0) return -1;
-
-    int id = -1;
-    int max_profit = -1;
-    for (auto it = travel_list.begin(); it != travel_list.end(); ++it){
-        if (it->second.first - dist[it->second.second] > max_profit) {
-            id = it->first;
-            max_profit = it->second.first - dist[it->second.second];
+    while(!travel_list.empty()){
+        Item item = travel_list.top();
+        if (!ids[item.id]) {
+            travel_list.pop();
+            continue;
         }
+        if (item.cost < 0) return -1;
+        travel_list.pop();
+        ids[item.id] = false;
+        return item.id;
     }
-    if (id != -1) travel_list.erase(id);
-    return id;
+    return -1;
 }
 
 void update_cost(){
@@ -51,6 +66,16 @@ void update_cost(){
         choosed[nxt] = true;
         st = nxt;
     }
+
+    priority_queue<Item, vector<Item>, cmp> tmp;
+    while(!travel_list.empty()){
+        Item t = travel_list.top(); travel_list.pop();
+        if (!ids[t.id]) continue;
+        int new_cost = t.revenue - dist[t.dest];
+        tmp.emplace(t.id, t.revenue, t.dest, new_cost);
+    }
+    travel_list = tmp;
+
 }
 
 int main() {
@@ -62,6 +87,7 @@ int main() {
         int cmd;
         cin >> cmd;
         int m, id, revenue, dest, s;
+        int new_cost;
         switch(cmd){
             case 100:
                 cin >> n >> m;
@@ -85,11 +111,13 @@ int main() {
                 break;
             case 200:
                 cin >> id >> revenue >> dest;
-                travel_list[id] = make_pair(revenue, dest);
+                ids[id] = true;
+                new_cost = revenue - dist[dest];
+                travel_list.emplace(id, revenue, dest, new_cost);
                 break;
             case 300:
                 cin >> id;
-                travel_list.erase(id);
+                ids[id] = false;
                 break;
             case 400:
                 cout << find_travel() << '\n';
