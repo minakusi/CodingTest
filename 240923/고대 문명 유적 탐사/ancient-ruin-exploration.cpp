@@ -12,7 +12,7 @@ vector<vector<pair<int, int>>> rotate_90 = {
     {{-2, 0}, {-1, -1}, {0, -2}}
 };
 vector<vector<pair<int, int>>> rotate_180 = {
-    {{2, 2}, {1, 0}, {2, -2}},
+    {{2, 2}, {2, 0}, {2, -2}},
     {{0, 2}, {0, 0}, {0, -2}},
     {{-2, 2}, {-2, 0}, {-2, -2}}
 };
@@ -39,14 +39,14 @@ void rotate_grid(int x, int y, int angle, vector<vector<int>>& tmp_grid){
     else if (angle == 1){
         for (int i = -1; i < 2; ++i){
             for (int j = -1; j < 2; ++j){
-                tmp_grid[x+i+rotate_180[i+1][j+1].first][y+j+rotate_90[i+1][j+1].second] = grid[x+i][y+j];
+                tmp_grid[x+i+rotate_180[i+1][j+1].first][y+j+rotate_180[i+1][j+1].second] = grid[x+i][y+j];
             }
         }
     }
     else{
         for (int i = -1; i < 2; ++i){
             for (int j = -1; j < 2; ++j){
-                tmp_grid[x+i+rotate_270[i+1][j+1].first][y+j+rotate_90[i+1][j+1].second] = grid[x+i][y+j];
+                tmp_grid[x+i+rotate_270[i+1][j+1].first][y+j+rotate_270[i+1][j+1].second] = grid[x+i][y+j];
             }
         }
     }
@@ -123,7 +123,11 @@ int main() {
                 for (int i = 1; i < 4; ++i){ 
                     vector<vector<int>> tmp_grid(grid);
                     rotate_grid(i, j, k, tmp_grid);
-
+                    // cout << "i, j, k: " << i << ' ' << j << ' ' << k << '\n';
+                    // for (int ll = 0; ll < 5; ++ll){
+                    //     for (int jj = 0; jj < 5; ++jj) cout << tmp_grid[ll][jj] << ' ';
+                    //     cout << '\n';
+                    // }
                     int tmp = search_gem(tmp_grid);       
                     if (tmp > ans) {
                         ans = tmp;
@@ -132,6 +136,13 @@ int main() {
                         select_k = k;
                         new_grid = tmp_grid;
                     }
+                    // if (tmp == 4){
+                    //     cout << "------------------\n";
+                    //     for (int ll = 0; ll < 5; ++ll){
+                    //         for (int jj = 0; jj < 5; ++jj) cout << tmp_grid[ll][jj] << ' ';
+                    //         cout << '\n';
+                    //     }
+                    // }
                 }
             }
         }
