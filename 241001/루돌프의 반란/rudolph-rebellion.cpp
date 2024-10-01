@@ -45,7 +45,7 @@ int main() {
 
     while(m--){
         // 루돌프 움직임 - 산타 선택
-        int closest_dist = 501, closest_santa = 0;
+        int closest_dist = 5001, closest_santa = 0;
         for (int i = 1; i <= p; ++i) {
             if (alive_santa[i]){
                 if (alive_santa[i] > 1) alive_santa[i] -= 1;
@@ -80,7 +80,6 @@ int main() {
         rc += dxy[final_dir][1];
         if (grid[rr][rc] > 0) {
             scores[closest_santa] += c;
-            // if (alive_santa[closest_santa] == 1)
             alive_santa[closest_santa] = 3;
             collision(rr + dxy[final_dir][0] * c, rc + dxy[final_dir][1] * c, final_dir, closest_santa);
         }
@@ -102,7 +101,6 @@ int main() {
 
                     if (grid[nsr][nsc] == -1) {
                         scores[i] += d;
-                        // if (alive_santa[i] == 1)
                         alive_santa[i] = 3;
                         grid[position_santa[i][0]][position_santa[i][1]] = 0;
                         collision(nsr + dxy[(dirj+4)%8][0]*d, nsc + dxy[(dirj+4)%8][1]*d, (dirj+4)%8, i);
@@ -136,16 +134,18 @@ int main() {
             }
             // cout << "산타 " << i << ": " << position_santa[i][0] << ' ' << position_santa[i][1] << ' ' << scores[i] << ' ' << alive_santa[i] << "\n";
         }
-        /*
-        for (int i = 1; i <= n; ++i) {
-            for (int j = 1; j <=n ; ++j) cout << grid[i][j] << ' ';
+
+        /* 
+        if (scores[9] > 230){
+            for (int i = 1; i <= n; ++i) {
+                for (int j = 1; j <=n ; ++j) cout << grid[i][j] << ' ';
+                cout << '\n';
+            }
+            for (int i = 1; i <= p; ++i) cout << scores[i] << ' ';
             cout << '\n';
-        }
-        for (int i = 1; i <= p; ++i) cout << scores[i] << ' ';
-        
-        cout << '\n';
+        } 
         */
-        
+                
         if (exit_flag) break;
     }
 
