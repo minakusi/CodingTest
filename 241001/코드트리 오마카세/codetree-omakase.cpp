@@ -3,7 +3,6 @@
 #include <vector>
 #include <unordered_map>
 #include <queue>
-#include <cmath>
 using namespace std;
 
 typedef struct Sushi{
@@ -29,7 +28,7 @@ struct compare{
     }
 };
 
-int L, cnt_person, cnt_sushi;
+int L;
 unordered_map<string, vector<Sushi>> sushi_dict;
 vector<Person> people;
 priority_queue<Query, vector<Query>, compare> pq;
@@ -64,17 +63,15 @@ int main() {
         Person cur_person = people[i];
         int person_delete_time = 0;
         for (auto& sushi: sushi_dict[cur_person.name]){
-            int r;
-            if (sushi.x > cur_person.x) r = L - (sushi.x - cur_person.x);
-            else r = cur_person.x - sushi.x;
-
-            int time;
+            int time = 0;
             if (cur_person.t > sushi.t){
-                int multiple = ceil((float)(cur_person.t - sushi.t - r) / L);
-                time = sushi.t + L * multiple + r;
+                int t_sushi_x = (sushi.x + (cur_person.t - sushi.t)) % L;
+                int addtional_time = (cur_person.x - t_sushi_x + L) % L;
+                time = cur_person.t + addtional_time;
             }
             else{
-                time = sushi.t + r;
+                int addtional_time = (cur_person.x - sushi.x + L) % L;
+                time = sushi.t + addtional_time;
             }
             pq.emplace(time, 3);
             if (person_delete_time < time) person_delete_time = time;
@@ -83,7 +80,7 @@ int main() {
     }
 
     
-
+    int cnt_person = 0, cnt_sushi = 0;
     while(!pq.empty()){
         Query cur_queue = pq.top(); pq.pop();
         if (cur_queue.cmd == 1) ++cnt_sushi; 
