@@ -13,7 +13,6 @@ typedef struct Knight{
 int L, N, Q;
 int grid[41][41];
 bool trap_grid[41][41];
-bool is_moved[31];
 vector<Knight> knights;
 int dxy[4][2] = {
     {-1, 0}, {0, 1}, {1, 0}, {0, -1}
@@ -23,10 +22,10 @@ bool moveKnight(int idx, int d){
     if (d == 0) {
         int r = knights[idx].r - 1;
         for (int i = knights[idx].c; i < knights[idx].c + knights[idx].w; ++i){
-            if (r < 1 || r > L || i < 1 || r > L || grid[r][i] == 2) {
+            if (r < 1 || r > L || i < 1 || i > L || grid[r][i] == 2) {
                 return 0;
             }
-            if (grid[r][i] > 0 && !is_moved[grid[r][i] / 10]) {
+            if (grid[r][i] > 0 && !knights[grid[r][i]].is_moved) {
                 int ret = moveKnight(grid[r][i] / 10, d);
                 if (!ret) return 0;
             }
@@ -46,10 +45,10 @@ bool moveKnight(int idx, int d){
     else if (d == 1){
         int r = knights[idx].c + knights[idx].w;
         for (int i = knights[idx].r; i < knights[idx].r + knights[idx].h; ++i){
-            if (r < 1 || r > L || i < 1 || r > L || grid[i][r] == 2) {
+            if (r < 1 || r > L || i < 1 || i > L || grid[i][r] == 2) {
                 return 0;
             }
-            if (grid[i][r] > 0 && !is_moved[grid[i][r] / 10]) {
+            if (grid[i][r] > 0 && !knights[grid[i][r]].is_moved) {
                 int ret = moveKnight(grid[i][r] / 10, d);
                 if (!ret) return 0;
             }
@@ -70,10 +69,10 @@ bool moveKnight(int idx, int d){
     else if (d == 2){
         int r = knights[idx].r + knights[idx].h;
         for (int i = knights[idx].c; i < knights[idx].c + knights[idx].w; ++i){
-            if (r < 1 || r > L || i < 1 || r > L || grid[r][i] == 2) {
+            if (r < 1 || r > L || i < 1 || i > L || grid[r][i] == 2) {
                 return 0;
             }
-            if (grid[r][i] > 0 && !is_moved[grid[r][i] / 10]) {
+            if (grid[r][i] > 0 && !knights[grid[r][i]].is_moved) {
                 int ret = moveKnight(grid[r][i] / 10, d);
                 if (!ret) return 0;
             }
@@ -94,10 +93,10 @@ bool moveKnight(int idx, int d){
     else{
         int r = knights[idx].c - 1;
         for (int i = knights[idx].r; i < knights[idx].r + knights[idx].h; ++i){
-            if (r < 1 || r > L || i < 1 || r > L || grid[r][i] == 2) {
+            if (r < 1 || r > L || i < 1 || i > L || grid[i][r] == 2) {
                 return 0;
             }
-            if (grid[i][r] > 0 && !is_moved[grid[i][r] / 10]) {
+            if (grid[i][r] > 0 && !knights[grid[i][r]].is_moved) {
                 int ret = moveKnight(grid[i][r] / 10, d);
                 if (!ret) return 0;
             }
@@ -147,8 +146,8 @@ int main() {
             knights[target].is_moved = false;
 
             if (!moved) continue;
+            
             // 기사 대미지
-
             for (int i = 1; i <= N; ++i){
                 if (knights[i].is_moved){
                     for (int j = knights[i].r; j < knights[i].r+knights[i].h; ++j){
@@ -167,6 +166,7 @@ int main() {
                     knights[i].is_moved = false;
                 }
             }
+            
 
         }
     }
