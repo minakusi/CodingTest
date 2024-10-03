@@ -88,7 +88,7 @@ int main() {
                         }
                     }
                     if (flag){
-                        new_grid[ii][jj] = grid[ii][jj];
+                        new_grid[ii][jj] += grid[ii][jj];
                     }
                 }
             }
