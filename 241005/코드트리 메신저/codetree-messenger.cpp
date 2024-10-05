@@ -25,7 +25,7 @@ void traverse(int target, int node){
         int cur = chats[node].children[i];
         int up = chats[cur].authority;
         bool flag = true;
-        while(up--){
+        while(up-- && cur != 0){
             if (!chats[cur].alarm_on) {
                 flag = false;
                 break;
@@ -75,6 +75,8 @@ int main() {
             cin >> c1 >> c2;
             int p1 = chats[c1].parent;
             int p2 = chats[c2].parent;
+
+            if (p1 == p2) continue;
 
             for (int i = 0; i < 2; ++i) {
                 if (chats[p1].children[i] == c1) chats[p1].children[i] = c2;
