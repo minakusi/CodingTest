@@ -1,7 +1,6 @@
 #include <iostream>
 using namespace std;
 
-int N;
 int sup_authority[100001][21];
 int authority[100001];
 int parents[100001];
@@ -26,7 +25,7 @@ void update(int cur){
 int main() {
     ios_base::sync_with_stdio(false);
     cin.tie(0);
-    int Q;
+    int N, Q;
     cin >> N >> Q;
 
     while(Q--){
@@ -39,12 +38,12 @@ int main() {
             }
             for (int i = 1; i <= N; ++i){
                 int p; cin >> p;
-                authority[i] = p;
+                int author = min(20, p);
+                authority[i] = author;
                 int cur = i;
-                while(p >= 0){
+                while(author >= 0){
                     if (cur == 0) break;
-                    ++sup_authority[cur][p];
-                    --p;
+                    ++sup_authority[cur][author--];
                     cur = parents[cur];
                 }
             }
@@ -52,11 +51,11 @@ int main() {
         else if (cmd == 200){
             int c; cin >> c;
             alarm_off[c] ^= 1;
-            update(c);
+            update(parents[c]);
         }
         else if (cmd == 300){
             int c, power; cin >> c >> power;
-            authority[c] = power;
+            authority[c] = min(20, power);
             update(c);
         }
         else if (cmd == 400){
