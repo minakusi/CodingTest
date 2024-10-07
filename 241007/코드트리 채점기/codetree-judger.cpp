@@ -113,21 +113,6 @@ int main() {
         else if (cmd == 500){
             int t; cin >> t;
             cout << cnt << '\n';
-            queue<Problem> cant;
-            while(!pq.empty()){
-                Problem pb = pq.top(); pq.pop();
-
-                cout << pb.t << ' ' << pb.p << ' ' << pb.url << '\n';
-
-                cant.emplace(pb);
-            }
-
-            while(!cant.empty()){
-                Problem pb = cant.front(); cant.pop();
-                pq.emplace(pb);
-            }
-            cout << '\n';
-
         }
     }
 
