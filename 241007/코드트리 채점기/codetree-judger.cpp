@@ -2,6 +2,7 @@
 #include <queue>
 #include <unordered_map>
 #include <functional>
+#include <string>
 using namespace std;
 
 typedef struct Problem{
@@ -66,7 +67,7 @@ int main() {
             string upper_url;
             while(!pq.empty()){
                 Problem pb = pq.top(); pq.pop();
-                upper_url = separateDomain(pb.url);
+                upper_url = pb.url.substr(0, pb.url.find('/')); // separateDomain(pb.url);
 
                 if (task_time[upper_url].first == 0){
                     selected_task = &pb;
