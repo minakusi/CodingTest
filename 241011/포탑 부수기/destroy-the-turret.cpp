@@ -90,8 +90,8 @@ int main() {
             }
         }
 
-        cout << "attacker: " << attacker.first << ' ' << attacker.second << '\n';
-        cout << "target: " << target.first << ' ' << target.second << '\n';
+        // cout << "attacker: " << attacker.first << ' ' << attacker.second << '\n';
+        // cout << "target: " << target.first << ' ' << target.second << '\n';
 
         // 공격력 증가
         for (int i = 0; i < N; ++i){
