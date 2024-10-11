@@ -36,7 +36,7 @@ int main() {
         pair<int, int> attacker, target;
         int biggest = 0, smallest = 5001;
         for (int i = 0; i < N; ++i){
-            for (int j = 0; j < N; ++j) {
+            for (int j = 0; j < M; ++j) {
                 if (grid[i][j] <= 0) continue;
 
                 if (grid[i][j] < smallest) {
@@ -90,12 +90,9 @@ int main() {
             }
         }
 
-        // cout << "attacker: " << attacker.first << ' ' << attacker.second << '\n';
-        // cout << "target: " << target.first << ' ' << target.second << '\n';
-
         // 공격력 증가
         for (int i = 0; i < N; ++i){
-            for (int  j = 0 ; j < N; ++j) {
+            for (int  j = 0 ; j < M; ++j) {
                 visited[i][j] = false;
                 parent[i][j] = make_pair(-1, -1);
                 in_attack[i][j] = false;
@@ -160,20 +157,21 @@ int main() {
         }
 
         // 포탑 정비
-        pair<int, int> compare(-1, -1);
         for (int i = 0; i < N; ++i){
-            for (int j = 0; j < N; ++j){
+            for (int j = 0; j < M; ++j){
                 if (grid[i][j] > 0 && !in_attack[i][j]) ++grid[i][j];
             }
         }
 
+        // cout << "attacker: " << attacker.first << ' ' << attacker.second << '\n';
+        // cout << "target: " << target.first << ' ' << target.second << '\n';
         // print_grid();
         
     }
 
     int ans = 0;
     for (int i = 0; i < N; ++i){
-            for (int j = 0; j < N; ++j){
+            for (int j = 0; j < M; ++j){
                 if (grid[i][j] > ans) ans = grid[i][j];
             }
     }
