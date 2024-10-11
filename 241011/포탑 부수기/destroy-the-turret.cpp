@@ -157,12 +157,16 @@ int main() {
         }
 
         // 포탑 정비
+        int num_potap = 0;
         for (int i = 0; i < N; ++i){
             for (int j = 0; j < M; ++j){
-                if (grid[i][j] > 0 && !in_attack[i][j]) ++grid[i][j];
+                if (grid[i][j] > 0){
+                    if (!in_attack[i][j]) ++grid[i][j];
+                    ++num_potap;
+                }
             }
         }
-
+        if (num_potap == 1) break;
         // cout << "attacker: " << attacker.first << ' ' << attacker.second << '\n';
         // cout << "target: " << target.first << ' ' << target.second << '\n';
         // print_grid();
