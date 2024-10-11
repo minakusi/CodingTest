@@ -16,19 +16,19 @@ int dxy[8][2] = {
 
 void print_grid(){
     for (int i = 0; i < N; ++i){
-        for (int j = 0; j < N; ++j) cout << grid[i][j] << ' ';
+        for (int j = 0; j < M; ++j) printf("%2d ", grid[i][j]);
         cout << '\n';
     }
     cout << '\n';
 }
 
 int main() {
-    ios_base::sync_with_stdio(false);
-    cin.tie(0);
+    // ios_base::sync_with_stdio(false);
+    // cin.tie(0);
     int K;
     cin >> N >> M >> K;
     for (int i = 0; i < N; ++i){
-        for (int j = 0; j < N; ++j) cin >> grid[i][j];
+        for (int j = 0; j < M; ++j) cin >> grid[i][j];
     }
 
     for (int k = 1; k <= K; ++k){
@@ -113,8 +113,8 @@ int main() {
             pair<int, int> cur = que.front(); que.pop();
             // cout << cur.first << ' ' << cur.second << '\n';
             for (int i = 0; i < 4; ++i){
-                int nx = (cur.first + dxy[i][0]) % N;
-                int ny = (cur.second + dxy[i][1]) % M;
+                int nx = (cur.first + dxy[i][0] + N) % N;
+                int ny = (cur.second + dxy[i][1] + M) % M;
                 if (visited[nx][ny] || grid[nx][ny] <= 0) continue;
 
                 parent[nx][ny] = cur;
@@ -145,8 +145,8 @@ int main() {
             grid[target.first][target.second] -= attack;
             attack /= 2;
             for (int i = 0; i < 8; ++i){
-                int nx = (target.first + dxy[i][0]) % N;
-                int ny = (target.second + dxy[i][1]) % M;
+                int nx = (target.first + dxy[i][0] + N) % N;
+                int ny = (target.second + dxy[i][1]+ M) % M;
 
                 if (grid[nx][ny] <= 0) continue;
                 if (nx == attacker.first && ny == attacker.second) continue;
